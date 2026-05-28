@@ -1,0 +1,39 @@
+services:
+  mysqldb:
+    image: mysql:9.6.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: eneas2805
+      MYSQL_DATABASE: basicosd
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+    # ELIMINA ESTA LÍNEA SI LA TIENES:
+    # command: --default-authentication-plugin=mysql_native_password
+
+  python-api:
+    build: ./python-api
+    container_name: basico-python-api
+    restart: unless-stopped
+    ports:
+      - "5001:5000"
+    depends_on:
+      - mysqldb
+
+  spring-app:
+    build: .
+    container_name: basico-spring-app
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/basicosd?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: eneas2805
+    ports:
+      - "8099:8099"
+    depends_on:
+      - mysqldb
+      - python-api
+
+volumes:
+  db:
