@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">
+            <i class="fas fa-credit-card me-2 text-primary"></i>Resultado del Pago
+        </h1>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success text-center">
+        <i class="fas fa-check-circle fa-3x mb-3"></i>
+        <h4 th:text="${success}"></h4>
+        <hr>
+        <p><strong>ID Transacción:</strong> <span th:text="${transactionId}"></span></p>
+        <p><strong>Monto:</strong> $ <span th:text="${amount}"></span></p>
+        <p><strong>Tarjeta:</strong> <span th:text="${lastFour}"></span></p>
+        <a th:href="@{/payment/history}" class="btn btn-primary mt-3">
+            <i class="fas fa-history me-2"></i>Ver Historial
+        </a>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger text-center">
+        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+        <h4 th:text="${error}"></h4>
+        <a th:href="@{/payment}" class="btn btn-primary mt-3">
+            <i class="fas fa-arrow-left me-2"></i>Intentar de nuevo
+        </a>
+    </div>
+</div>
+</html>

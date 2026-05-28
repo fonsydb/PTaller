@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+      <i class="fab fa-python me-2 text-warning"></i>API Python - Simulador de Excepciones
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fas fa-bug me-2 text-danger"></i>Selecciona el tipo de error</h5>
+        </div>
+        <div class="card-body">
+          <form method="post" th:action="@{/python-api/test}">
+            <div class="mb-3">
+              <label class="form-label">Tipo de excepción a simular:</label>
+              <select name="tipoError" class="form-select" required>
+                <option value="">-- Selecciona una opción --</option>
+                <option value="archivo">📄 Error de lectura de archivo</option>
+                <option value="bd">🗄️ Error de base de datos</option>
+                <option value="pokemon">🐛 Error llamada a API externa (Pokemon)</option>
+                <option value="division">➗ Error matemático (división por cero)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-gradient">
+              <i class="fas fa-play me-2"></i>Probar Excepción
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fas fa-info-circle me-2 text-primary"></i>Información</h5>
+        </div>
+        <div class="card-body">
+          <p>Esta sección se comunica con una API externa desarrollada en <strong>Python (Flask)</strong> que simula diferentes tipos de excepciones:</p>
+          <ul>
+            <li><strong>Archivo:</strong> Intenta leer un archivo que no existe</li>
+            <li><strong>Base de Datos:</strong> Consulta una tabla inexistente</li>
+            <li><strong>Pokemon API:</strong> Busca un Pokémon con ID inválido</li>
+            <li><strong>División:</strong> Intenta dividir por cero</li>
+          </ul>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <span>Estado API Python:</span>
+            <span id="pythonStatus" class="badge bg-secondary">Verificando...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div th:if="${loading}" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Llamando al API Python...</p>
+  </div>
+
+  <!-- Resultado exitoso -->
+  <div th:if="${resultado} and !${loading}" class="alert alert-success mt-3">
+    <h5><i class="fas fa-check-circle me-2"></i>Resultado:</h5>
+    <pre class="mb-0" style="white-space: pre-wrap; word-wrap: break-word;" th:text="${resultado}"></pre>
+  </div>
+
+  <!-- Error capturado -->
+  <div th:if="${error} and !${loading}" class="alert alert-danger mt-3">
+    <h5><i class="fas fa-exclamation-triangle me-2"></i>Excepción Capturada:</h5>
+    <pre class="mb-0" style="white-space: pre-wrap; word-wrap: break-word;" th:text="${error}"></pre>
+  </div>
+
+  <!-- Tipo probado -->
+  <div th:if="${tipoProbado} and !${loading}" class="alert alert-info mt-2">
+    <i class="fas fa-tag me-2"></i> Tipo de error probado: <strong th:text="${tipoProbado}"></strong>
+  </div>
+</div>
+
+<script>
+  // Verificar estado del API Python
+  fetch('http://localhost:5000/api/health')
+      .then(response => {
+          if (response.ok) {
+              document.getElementById('pythonStatus').innerHTML = '<span class="badge bg-success">🟢 Activo</span>';
+          } else {
+              document.getElementById('pythonStatus').innerHTML = '<span class="badge bg-warning">🟡 Error</span>';
+          }
+      })
+      .catch(() => {
+          document.getElementById('pythonStatus').innerHTML = '<span class="badge bg-danger">🔴 No disponible</span>';
+      });
+</script>
+</html>

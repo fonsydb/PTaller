@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Gestión de Excepciones - Error</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; }
+        .error-container { border: 2px solid red; padding: 20px; border-radius: 5px; background-color: #fff3f3; }
+        h2 { color: red; }
+        pre { background-color: #f8f8f8; padding: 10px; overflow-x: auto; }
+        a { color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <h2>⚠️ Se ha producido una excepción</h2>
+    <h3 th:text="${titulo}">Tipo de error</h3>
+    <pre th:text="${error}">Detalles del error</pre>
+    <a href="/">Volver a inicio</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content">
+    <div class="d-flex align-items-center mb-4">
+        <a th:href="@{/users}" class="btn btn-link text-decoration-none me-3">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+        <h2 class="mb-0">
+            <i class="fas fa-user me-2 text-primary"></i>
+            <span th:text="${userDto.id} != null ? 'Editar Usuario' : 'Nuevo Usuario'"></span>
+        </h2>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <form th:action="@{/users/save}" th:object="${userDto}" method="post">
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-user me-1 text-primary"></i> Usuario *
+                        </label>
+                        <input type="text" class="form-control" th:field="*{username}" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-id-card me-1 text-primary"></i> Nombre Completo *
+                        </label>
+                        <input type="text" class="form-control" th:field="*{nombreUsuario}" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-envelope me-1 text-primary"></i> Email *
+                        </label>
+                        <input type="email" class="form-control" th:field="*{email}" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-tag me-1 text-primary"></i> Rol *
+                        </label>
+                        <select class="form-select" th:field="*{roleId}" required>
+                            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.roleName.replace('ROLE_', '')}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-lock me-1 text-primary"></i>
+                            <span th:text="${userDto.id} != null ? 'Nueva Contraseña (opcional)' : 'Contraseña *'"></span>
+                        </label>
+                        <input type="password" class="form-control" th:field="*{password}"
+                               th:required="${userDto.id} == null">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-lock me-1 text-primary"></i> Confirmar Contraseña
+                        </label>
+                        <input type="password" class="form-control" th:field="*{confirmPassword}"
+                               th:required="${userDto.id} == null">
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-gradient">
+                        <i class="fas fa-save me-2"></i> Guardar
+                    </button>
+                    <a th:href="@{/users}" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

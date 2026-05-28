@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content">
+    <div class="d-flex align-items-center mb-4">
+        <a th:href="@{/categories}" class="btn btn-link text-decoration-none me-3">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+        <h2 class="mb-0">
+            <i class="fas fa-tags me-2 text-info"></i>
+            <span th:text="${category.id} != null ? 'Editar Categoría' : 'Nueva Categoría'"></span>
+        </h2>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <form th:action="@{/categories/save}" th:object="${category}" method="post">
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-tag me-1 text-primary"></i> Nombre de la Categoría *
+                    </label>
+                    <input type="text" class="form-control" th:field="*{name}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-align-left me-1 text-primary"></i> Descripción
+                    </label>
+                    <textarea class="form-control" th:field="*{description}" rows="3"></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-gradient">
+                        <i class="fas fa-save me-2"></i> Guardar
+                    </button>
+                    <a th:href="@{/categories}" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>
