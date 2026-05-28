@@ -1,0 +1,26 @@
+services:
+  mysqldb:
+    image: mysql:9.6.0
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    volumes:
+      - db:/var/lib/mysql
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    env_file: ./.env
+    environment:
+      POSTGRES_DB: $POSTGRESDB
+      POSTGRES_USER: postuser
+      POSTGRES_PASSWORD: postpass
+    ports:
+      - "5432:5432"
+
+volumes:
+    db:
