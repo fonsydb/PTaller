@@ -34,3 +34,17 @@ Aparte de los puntos anteriores se valorarán para mejorar la calificación son:
  - Simulación de pasarelas de  pago.
  - Colas MQ
  - LLM
+
+# Proyecto realizado - Sistema de Gestión (Proyecto basico ampliado)
+
+* Spring Boot 4.0.3 + MySQL + Python Flask + Docker
+
+Funcionalidades:
+- CRUD Usuarios, Productos, Categorías
+- Chat WebSocket
+- API Python para simulación de excepciones
+- Google Maps integrado
+- Pasarela de pago simulada
+- Seguridad con Spring Security
+- Tests básicos
+- Despliegue Docker
